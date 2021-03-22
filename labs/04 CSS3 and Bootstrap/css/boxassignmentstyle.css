@@ -1,0 +1,54 @@
+body{
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+h1{
+    font-size: 10em;
+    font-weight: 540;
+    margin: 0.2em;
+}
+
+img{
+    width: 15em;
+    border: 3px solid lightsteelblue;
+}
+
+figcaption{
+    font-size: 1.2em;
+    font-weight: bold;
+    margin: 2em 2em 4em 2em;
+}
+
+.blue, .yellow, .red{
+    margin: auto;
+    width: 20em;
+    padding: 2em;
+    border-top: 1px solid black;
+}
+
+.blue{
+    background-color: rgb(206, 227, 255);
+}
+
+.yellow{
+    background-color: rgb(255, 241, 214);
+}
+
+.red{
+    background-color: #fc9582;
+    border-bottom: 1px solid black;
+    margin-bottom: 2em;
+}
+
+h2{
+    font-size: 3em;
+    font-weight: 300;
+    margin: 0;
+}
+
+p{
+    font-size: 1.3em;
+    font-style: italic;
+    margin: 0;
+}
