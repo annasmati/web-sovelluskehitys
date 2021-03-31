@@ -5,6 +5,8 @@
   <title> JSON </title>
   <script>
 
+    window.onload = init;
+
 var fidoString = '{ "name": "Fido", "breed": "Mixed", "weight": 38 }';
 var fido = JSON.parse(fidoString);
 console.log("We have made a dog out of a string! " + fido.name);
@@ -18,8 +20,25 @@ var fido2 = {
 var fidoString = JSON.stringify(fido2);
 console.log("We made a string from a dog! " + fidoString);
 
+let employee = {
+  name: {first: "Colin", second: "Stephen"},
+  title: "Assistant Lecturer"
+};
+
+let myString = JSON.stringify(employee);
+
+
+function init(){
+      document.getElementById("mydiv").innerHTML = "<p>" + myString + "</p>";
+      let myObject = JSON.parse(myString);
+      let employeeTitle = JSON.stringify(myObject.title);
+      document.getElementById("newdiv").innerHTML = "<p>" + employeeTitle + "</p>";
+  }
+
   </script>
 </head>
 <body>
+  <div id="mydiv"></div>
+  <div id="newdiv"></div>
 </body>
 </html>

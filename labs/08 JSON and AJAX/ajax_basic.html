@@ -6,15 +6,17 @@
 </head>
 
 <body>
-  <span id="ajaxButton" style="cursor: pointer; text-decoration: underline">
-    Make a request
-  </span>
 
+  <div id="test">
+    <p>Write URL:</p>
+    <input type="text" id="url">
+    <span id="ajaxButton" style="cursor: pointer; text-decoration: underline">Make a request</span>
+  </div>
 
   <script type="text/javascript">
   (function() {
     var httpRequest;
-    var testUrl = 'data/story.json';
+    let testUrl = document.getElementById("url").value;
     // Use Github Gist when no web server is available
     // var testUrl = 'https://gist.githubusercontent.com/c0lin/571d38b984d41b44aacf/raw/story.json';
     document.getElementById("ajaxButton").onclick = function() { makeRequest(testUrl); };
@@ -40,7 +42,7 @@
       }
 
       // set a callback function for when the httpRequest completes
-      httpRequest.onreadystatechange = alertContents;
+      httpRequest.onreadystatechange = alertError;
 
       // now do the actual AJAX request
       httpRequest.open('GET', url);
@@ -55,6 +57,16 @@
           alert(httpRequest.responseText);
         } else {
           alert('There was a problem with the request.');
+        }
+      }
+    }
+
+    function alertError() {
+      if (httpRequest.readyState === 4) {
+        if (httpRequest.status === 404) {
+          alert('Site is DOWN!');
+        } else {
+          alert(httpRequest.responseText);
         }
       }
     }
