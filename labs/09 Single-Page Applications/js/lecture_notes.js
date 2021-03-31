@@ -9,21 +9,29 @@ if (window.location.hash == '#add' || notes.length === 0) {
 	document.getElementById('addPage').style.display = 'none';
 }
 
-document.querySelector('#addPage button').onclick = function() {
+document.querySelector('#addPage button').onclick = function () {
 	console.log('add note');
-	var title = document.querySelector('#addPage input').value;
-	var note = document.querySelector('#addPage textarea').value;
+	var title = document.querySelector('#addPage input');
+	var note = document.querySelector('#addPage textarea');
+	notes.push({ title: title.value, note: note.value });
+	console.log(notes);
+	title.value = '';
+	note.value = '';
+
+	loadList();
 };
+
+document.getElementById("update").onclick = function () { updateNote(); };
 
 /*
  * handles navigation between the add and edit 'screens'
- */ 
-document.querySelector('nav > ul > li:nth-child(1)').onclick = function() {
-	console.log('first link clicked');
+ */
+document.querySelector('nav > ul > li:nth-child(1)').onclick = function () {
+	updateView('add');
 };
 
-document.querySelector('nav > ul > li:nth-child(2)').onclick = function() {
-	console.log('second link clicked');
+document.querySelector('nav > ul > li:nth-child(2)').onclick = function () {
+	updateView('edit');
 };
 
 
@@ -33,9 +41,10 @@ function updateNote() {
 	var note = document.querySelector('#editPage textarea').value;
 	var id = parseInt(document.querySelector('#editPage p').innerHTML, 10);
 	console.log(id);
-	var updated = {title: title, note: note};
+	var updated = { title: title, note: note };
 	console.log(updated);
-	notes[id] = {title: title, note: note};
+	notes[id] = { title: title, note: note };
+	console.log(notes);
 }
 
 function display(element) {
@@ -55,8 +64,8 @@ function rem(element) {
 	notes.splice(id, 1);
 	loadList();
 	var editId = parseInt(document.querySelector('#editPage p').innerHTML, 10);
-	console.log('id: '+id);
-	console.log('editId: '+editId);
+	console.log('id: ' + id);
+	console.log('editId: ' + editId);
 	if (id == editId) {
 		console.log('deleted document being edited!');
 		document.querySelector('#editPage input').value = '';
@@ -67,10 +76,20 @@ function rem(element) {
 function loadList() {
 	var table = document.getElementById('list');
 	table.innerHTML = '';
-	for (var i=0; i<notes.length; i++) {
+	for (var i = 0; i < notes.length; i++) {
 		var row = document.createElement('tr');
 		row.id = i;
-		row.innerHTML = '<td><a onclick="display(this)" href="#">'+notes[i].title+'</a></td><td><a onclick="rem(this)" class="delete" href="#">delete</a></td>';
+		row.innerHTML = '<td><a onclick="display(this)" href="#">' + notes[i].title + '</a></td><td><a onclick="rem(this)" class="delete" href="#">delete</a></td>';
 		table.appendChild(row);
+	}
+}
+
+function updateView(view) {
+	if (view === 'add') {
+		document.getElementById('addPage').style.display = 'inherit'
+		document.getElementById('editPage').style.display = 'none'
+	} else if (view === 'edit') {
+		document.getElementById('addPage').style.display = 'none'
+		document.getElementById('editPage').style.display = 'inherit'
 	}
 }
