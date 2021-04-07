@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app-1">
+        <input type="text" v-on:keyup="changetext" placeholder="Change text"></br>
+        {{ message }} </br>
+        {{ messagelength }}
+    </div>
+    </br>
+
+    <div id="app-2">
+        <span v-if="seen">Now you see me</span></br>
+        <button v-on:click="hide">Show/Hide</button>
+    </div>
+    </br>
+
+    <div id="app-3">
+        {{ playbackspeed }} </br>
+        <button v-on:click="subtract">-</button>
+        <button v-on:click="reset">0</button>
+        <button v-on:click="add">+</button>
+    </div>
+    </br>
+
+    <div id="app-4">
+        {{title}}</br>
+        <input type="text" id="item-input">
+        <button v-on:click="addItem">Add item</button>
+        <button v-on:click="removeFirst">Remove first item</button>
+        <ol>
+            <grocery-item v-for="item in groceryList" v-bind:grocery="item"></grocery-item>
+        </ol>
+    </div>
+
+
+    <div id="app-5">
+        {{title}}</br>
+        <input type="text" id="new-item-input">
+        <button v-on:click="addItem">Add item</button>
+        <button v-on:click="removeFirst">Remove first item</button>
+        <ol>
+            <li v-for="(item, index) in groceryList2" >{{ item.text }}
+                <button v-on:click="removeIndex(index)">Remove</button>
+            </li>
+        </ol>
+    </div>
+
+    <script>
+        var app1 = new Vue({
+            el: '#app-1',
+            data: {
+                message: 'Hello World!',
+                messagelength: 'Text length: 11'
+            },
+            methods: {
+                changetext: function (event) {
+                    let value = event.target.value;
+                    this.message = value;
+                    this.messagelength = 'Text length: ' + value.length;
+                }
+            }
+        })
+
+        var app2 = new Vue({
+            el: '#app-2',
+            data: {
+                seen: true
+            },
+            methods: {
+                hide: function (event) {
+                    if (this.seen === true) {
+                        this.seen = false;
+                    } else {
+                        this.seen = true;
+                    }
+                }
+            }
+        })
+
+        var app3 = new Vue({
+            el: '#app-3',
+            data: {
+                count: 0,
+                playbackspeed: 'Playback speed: 0'
+            },
+            methods: {
+                add: function (event) {
+                    this.count++;
+                    this.updatediv();
+                },
+                subtract: function (event) {
+                    this.count--;
+                    this.updatediv();
+                },
+                reset: function (event) {
+                    this.count = 0;
+                    this.updatediv();
+                },
+                updatediv: function () {
+                    this.playbackspeed = 'Playback speed: ' + this.count;
+                }
+            }
+        })
+
+        Vue.component('grocery-item', {
+            props: ['grocery'],
+            template: '<li>{{ grocery.text }}</li>'
+        })
+
+        var app4 = new Vue({
+            el: '#app-4',
+            data: {
+                title: 'Grocery list:',
+                groceryList: [
+                    { text: 'Vegetables' },
+                    { text: 'Cheese' },
+                    { text: 'Milk' }
+                ]
+            },
+            methods: {
+                addItem: function (event) {
+                    let iteminput = document.getElementById('item-input');
+                    this.groceryList.push({ text: iteminput.value });
+                    iteminput.value = '';
+                },
+                removeFirst: function (event) {
+                    this.groceryList.shift();
+                }
+            }
+        })
+
+
+        var app5 = new Vue({
+            el: '#app-5',
+            data: {
+                title: 'Grocery list 2:',
+                groceryList2: [
+                    { text: 'Vegetables' },
+                    { text: 'Cheese' },
+                    { text: 'Milk' }
+                ]
+            },
+            methods: {
+                addItem: function (event) {
+                    let iteminput = document.getElementById('new-item-input');
+                    this.groceryList2.push({ text: iteminput.value });
+                    iteminput.value = '';
+                },
+                removeFirst: function (event) {
+                    this.groceryList2.shift();
+                },
+                removeIndex: function (index){
+                    this.groceryList2.splice(index, 1);
+                }
+            }
+        })
+
+
+    </script>
+</body>
+
+</html>
